@@ -2,7 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 
-engine = create_engine('sqlite:///testDB.db', echo=True)
+#engine = create_engine('sqlite:///testDB.db', echo=False)
+
+engine = create_engine('sqlite+pysqlite:///:memory:', echo=False)
+
 
 Base = declarative_base()
 
@@ -20,6 +23,9 @@ class Person(Base):
     department_id = Column(Integer, ForeignKey("department.id"))
 
     department = relationship("Department")
+
+    def __str__(self):
+        return f'Person [id="{self.id}", name="{self.name}"]'
 
 
 Base.metadata.create_all(engine)
@@ -42,6 +48,11 @@ with Session() as session:
 
     session.query(Department).all()
 
+
+with Session() as session:
+    persons = session.query(Person).all()
+    for person in persons:
+        print(person)
 
 
 # long: sqlite = 0-8 bytes, java = 8 bytes
