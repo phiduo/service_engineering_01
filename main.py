@@ -49,6 +49,8 @@ with Session() as session:
     session.query(Department).all()
 
 
+Session = sessionmaker(engine)
+
 with Session() as session:
     persons = session.query(Person).all()
     for person in persons:
