@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.orm import declarative_base, relationship, Session
+
+# engine = create_engine('sqlite:///testDB.db', echo=True)
 
 
 engine = create_engine('sqlite+pysqlite:///:memory:', echo=False)
-
 
 Base = declarative_base()
 
@@ -28,11 +29,10 @@ class Person(Base):
 
 Base.metadata.create_all(engine)
 
+session = Session(engine)
 
-Session = sessionmaker(engine)
 
-
-with Session() as session:
+with session as session:
     d = Department(name="Design")
     p1 = Person(name="Tom", department=d)
     p2 = Person(name="Jack", department=d)
@@ -45,13 +45,9 @@ with Session() as session:
 
     session.query(Department).all()
 
-
-Session = sessionmaker(engine)
-
-with Session() as session:
+with session as session:
     persons = session.query(Person).all()
     for person in persons:
         print(person)
-
 
 # long: sqlite = 0-8 bytes, java = 8 bytes
