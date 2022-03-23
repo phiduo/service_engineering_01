@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 
-engine = create_engine('sqlite:///testDB.db', echo=True)
+engine = create_engine('sqlite+pysqlite:///:memory:', echo=False)
 
 
 Base = declarative_base()
@@ -27,7 +27,6 @@ class Person(Base):
 
 
 Base.metadata.create_all(engine)
-
 
 
 Session = sessionmaker(engine)
