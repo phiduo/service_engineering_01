@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, Session
 
-
-engine = create_engine('sqlite+pysqlite:///:memory:', echo=False)
+engine = create_engine('sqlite:///testDB.db', echo=True)
 
 Base = declarative_base()
 
