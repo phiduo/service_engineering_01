@@ -11,6 +11,9 @@ class Department(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
 
+    def __repr__(self):
+        return f'Department [id="{self.id}", name="{self.name}"]'
+
 
 class Person(Base):
     __tablename__ = "person"
@@ -20,7 +23,7 @@ class Person(Base):
 
     department = relationship("Department")
 
-    def __str__(self):
+    def __repr__(self):
         return f'Person [id="{self.id}", name="{self.name}"]'
 
 
@@ -29,22 +32,6 @@ Base.metadata.create_all(engine)
 session = Session(engine)
 
 
-with session as session:
-    d = Department(name="Design")
-    p1 = Person(name="Tom", department=d)
-    p2 = Person(name="Jack", department=d)
 
-    session.add(d)
-    session.add(p1)
-    session.add(p2)
-
-    session.commit()
-
-    session.query(Department).all()
-
-with session as session:
-    persons = session.query(Person).all()
-    for person in persons:
-        print(person)
 
 # long: sqlite = 0-8 bytes, java = 8 bytes
